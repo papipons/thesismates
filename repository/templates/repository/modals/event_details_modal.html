@@ -1,0 +1,30 @@
+{% extends "modal.html" %}
+
+{% block modalID %}event-details-modal{% endblock modalID %}
+
+{% block modalSize %}
+	modal-sm
+{% endblock modalSize %}
+
+{% block modalTitle %}
+	<div id="modalTitle"></div>
+{% endblock modalTitle %}
+
+{% block modalBody %}
+	<div id="modalBody">
+		<div id="eventNotes"></div>
+		<div>
+			<br>
+			<span><strong>Type:</strong></span>
+			<div id="type"></div>
+			<div id="includedMembers"></div>
+			<br>
+			<span><strong>Posted By:</strong></span>
+			<br>
+			<span id="postedBy"></span>
+		</div>
+	</div>
+{% endblock modalBody %}
+
+{% block modalFooter %}
+{% endblock modalFooter %}

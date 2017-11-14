@@ -1,0 +1,42 @@
+{% extends "modal.html" %}
+
+{% block modalID %}journal-entry-modal{% endblock modalID %}
+
+{% block modalTitle %}
+	Generate Journal
+{% endblock modalTitle %}
+
+{% block modalBody %}
+		<form id="journal-entry-form" method="get" action="{% url 'repository.views.generate_journal' project_status project.uid project.slug %}">
+			{% csrf_token %}
+			<div class="form-group">
+				<label for="id_start">Start:</label>
+				<div id="journal-start-date-picker" class='input-group date datepicker'>
+                    {{ add_journal_event_form.start_date }}
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+			</div>
+
+			<div class="form-group">
+				<label for="id_end">End:</label>
+				<div id="journal-end-date-picker" class='input-group date datepicker'>
+                    {{ add_journal_event_form.end_date }}
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+
+                </div>
+			</div>
+
+			<div class="form-group text-right">
+			    <button type="submit" class="btn btn-primary">Generate</button>
+			</div>
+
+			<p id="journal-entry-form-response" class="text-success"></p>
+		</form>
+{% endblock modalBody %}
+
+{% block modalFooter %}
+{% endblock modalFooter %}

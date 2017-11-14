@@ -1,0 +1,59 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+
+{% block title %}
+	Thesismates | {{ title }}
+{% endblock title %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static 'fullcalendar/css/fullcalendar.css' %}">
+	<link rel="stylesheet" href="{% static 'datetimepicker/css/bootstrap-datetimepicker.min.css' %}">
+{% endblock css %}
+
+{% block modal %}
+	{% if title == "Ongoing Projects" %}
+	{% include "repository/modals/add_project_modal.html" %}
+	{% include "repository/modals/add_event_modal.html" %}
+	{% endif %}
+{% endblock modal %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<h1 class="easy-sidebar-toggle">toggle</h1>
+		<div class="col-md-9">
+			<h3>{{ title }}</h3>
+			{% if projects %}
+				{% for project in projects %}
+					<div class="white-box">
+						<h3><a href="{% url 'repository.views.project_profile' project_status project.uid project.slug %}">{{ project.title }}</a></h3>	
+						<strong>{{ project.abstract }}</strong>
+					</div>
+				{% endfor %}
+			{% else %}
+				<h1>No ongoing projects for now. Here, take some ice cream
+					<br>
+					<br>
+					 <span class="glyphicon glyphicon-ice-lolly"></span>
+					 <span class="glyphicon glyphicon-ice-lolly"></span>
+					 <span class="glyphicon glyphicon-ice-lolly-tasted"></span>
+					 <span class="glyphicon glyphicon-ice-lolly-tasted"></span>
+				 </h1>
+			{% endif %}
+		</div>
+		{% if title == "Ongoing Projects" %}
+			{% include "repository/project_control.html" %}
+		{% endif %}
+	</div>
+</div>
+{% endblock content %}
+
+{% block jScripts %}
+	{% if title == "Ongoing Projects" %}
+		<script src="{% static 'fullcalendar/js/moment.min.js' %}"></script>
+		<script src="{% static 'fullcalendar/js/fullcalendar.js' %}"></script>
+		<script src="{% static 'datetimepicker/js/bootstrap-datetimepicker.js' %}"></script>
+		<script src="{% static 'repository/js/project.js' %}"></script>
+	{% endif %}
+{% endblock jScripts %}

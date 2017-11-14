@@ -1,0 +1,39 @@
+<ul id="docs">
+{% for each in urls %}
+	<li>
+		<img draggable="false" class="img-responsive" oncontextmenu="return false;" src="/media/public/utils/loading_spinner.gif" 
+		data-src="{{ each|watermark:'trans, position=c, opacity=50, greyscale=1' }}">
+		<br>
+	</li>
+{% endfor %}
+</ul>
+
+{% if has_request %}
+			{% if has_access == "unknown" %}
+				<h4>Waiting for request approval</h4>
+				<p>Please wait for your request to be approved</p>
+			{% endif %}
+
+			{% if has_access == False %}
+				<h4>Request was not approved</h4>
+				<p>
+					Your request was not approved, request again 
+				</p>
+				<a id="doc_req" type="button" class="btn btn-default">
+					Request for access
+				</a>
+			{% endif %}
+
+			{% if has_access == True %}
+				<h4 class='text-center'>Access is valid until the end of semester</h4>
+				<br>
+			{% endif %}
+		{% else %}
+			<h4>You do not have access to this documentation</h4>
+			<p>
+				Upon approval of the request, access is valid until the end of semester
+			</p>
+			<a id="doc_req" type="button" class="btn btn-default">
+				Request for access
+			</a>
+		{% endif %}

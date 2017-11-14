@@ -1,0 +1,49 @@
+{% load prettytimes_tags %}
+
+<div id="log" class="row">
+    <div class="col-md-12">
+        <h4>Logs for {{ ssy }} - {{ esy }}, {{ sem }} term</h4>
+        <table class="table tables-striped">
+            <thead>
+                <tr>
+                    <th>Actor</th>
+                    <th>Action</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th><i class="fa fa-clock-o"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if logs %}
+                    {% for log in logs %}
+                        <tr>
+                            <td>{{ log.actor.first_name }} {{ log.actor.last_name }}</td>
+                            <td>{{ log.message|capfirst }}</td>
+                            <td>{{ log.created_date|date:"F d, o" }}</td>
+                            <td>{{ log.created_date|date:"h:i a" }}</td>
+                            <td>{{ log.created_date|relative_time }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <p id="no-logs">No Logs</p>
+                {% endif %}
+            </tbody>
+        </table>
+        <!-- <ul class="list-group">
+        {% if logs %}
+            <p id="no-logs" style="display: none;">No documents</p>
+            {% for log in logs %}
+                <div class="list-group-item clearfix">
+                    {{ log.actor.first_name }} {{ log.actor.last_name }} {{ log.message }}
+                    <span id="file-control" class="pull-right">
+                        {{ log.created_date|date:"F d, o (h:i a)" }}
+                        ({{ log.created_date|relative_time }})
+                    </span>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p id="no-logs">No Logs</p>
+        {% endif %}
+        </ul> -->
+    </div>
+</div>

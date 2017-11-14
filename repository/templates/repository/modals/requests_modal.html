@@ -1,0 +1,26 @@
+{% extends "modal.html" %}
+
+{% block modalID %}requests-modal{% endblock modalID %}
+
+{% block modalTitle %}
+	Requests
+{% endblock modalTitle %}
+
+
+
+{% block modalBody %}
+	<div class="row">
+		{% for request in advisoree_requests %}
+			<div class="col-md-12 request">
+				<h4>Advisoree Request</h4>
+				<p><strong>Project: </strong>{{ request.requester }}</p>
+				<p><strong>Abstract: </strong>{{ request.requester.abstract }}</p>
+				<a role="button" href="{% url 'repository.views.respond_advisoree_request' project_status request.requester.uid request.requester.slug "accepted" %}" id="send-confirmation" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Accept</a>
+				<a role="button" href="{% url 'repository.views.respond_advisoree_request' project_status request.requester.uid request.requester.slug "rejected" %}"  class="btn btn-danger btn-sm close-notif"><i class="fa fa-times-circle"></i> Reject</a>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock modalBody %}
+
+{% block modalFooter %}
+{% endblock modalFooter %}

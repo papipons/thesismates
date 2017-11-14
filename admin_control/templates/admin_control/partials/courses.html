@@ -1,0 +1,56 @@
+
+<div class="row">
+	<div class="col-md-3">
+		<strong>Add Course</strong>
+		<form id="add-course-form" method="post" action="#">
+		{% csrf_token %}
+			<div class="form-group">
+				{{ form.name }}
+			</div>
+
+			<div class="form-group">
+				{{ form.program }}
+			</div>
+
+			<button class="btn btn-default" type="submit">Add</button>
+
+			<p id="add-course-form-response"></p>
+		</form>
+		<hr>
+		<strong>Edit Course</strong>
+		<p>Select a row from the table to edit</p>
+		<form id="edit-course-form" method="post" action="#">
+		{% csrf_token %}
+			<div class="form-group">
+				{{ form.name }}
+			</div>
+
+			<button class="btn btn-default" type="submit">Submit</button>
+
+			<p id="edit-course-form-response" class="text-success"></p>
+		</form>
+	</div>
+	<div class="col-md-9">
+		<table id="courses-table" class="table table-condensed table-striped table-hover display">
+			<thead>
+				<tr>
+					<th>Course</th>
+					<th>Program</th>
+					<th>Created Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for course in courses %}
+					<tr>
+						<td>{{ course.name }}</td>
+						<td>{{ course.program.code }}</td>
+						<td>{{ course.created_date|date:"F d, o" }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% load staticfiles %}
+<script src="{% static 'admin_control/js/courses.js' %}"></script>

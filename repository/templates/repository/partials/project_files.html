@@ -1,0 +1,124 @@
+	{# {% if project_status == "ongoing" %} #}
+<!--     <a href="#" id="add-file">
+    <i class="fa fa-plus blue-icon"></i>
+    Add File 
+</a>
+<br> -->
+<!--     <a href="#" data-toggle="modal" data-target="#journal-entry-modal" >
+    <i class="fa fa-calendar-o blue-icon"></i>
+    Generate Journal
+</a>
+<br> -->
+	{# {% endif %} #}
+<!--     <a href="{% url 'repository.views.view_documentation' project_status project.uid project.slug %}">
+    <i class="fa fa-eye blue-icon"></i>
+    View docu
+</a> -->
+
+<!-- <hr align="left"> -->
+
+{% load prettytimes_tags %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="reached-cap-notification" style="display: none;" class="alert alert-danger clearfix" role="alert">
+            <button type="button" class="close close-notif">×</button>
+            <strong>Storage full!</strong>
+            <span>Please remove unnecessary files</span>
+        </div>
+
+        <div id="insuff-space-notification" style="display: none;" class="alert alert-danger clearfix" role="alert">
+            <button type="button" class="close close-notif">×</button>
+            <strong>Insufficient space!</strong>
+            <span>Please remove unnecessary files</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="full-notification" style="display: none;" {% if reached_cap %}class="reached"{% endif %}>
+            <i class="fa fa-exclamation-triangle blue-icon"></i>
+            <span class="text-danger">Storage capacity is reached! Please remove unnecessary files</span>
+        </div>
+
+        <div class="progress">
+            <div id="storage-gauge" class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentage }}%">
+            </div>
+            <span class="progress-type"><span id="storage-gauge-label">{{ used_storage_size }}</span> mb of {{ capacity }} mb used ({{ free_size }} mb free)</span>
+            <span id="storage-percentage" class="progress-completed">{{ percentage }}%</span>
+        </div>
+
+        <a href='#' type="button" class="btn btn-xs btn-default" id='add-file'><i class='fa fa-plus blue-icon'></i> Add File</a>
+    </div>
+</div>
+
+<!-- {% if files %}
+    {% for document in files %}
+        <span>{{ document.filename }}</span>
+        <a target="_blank" href="{% url 'repository.views.view_file' project_status project.uid project.slug document.id %}"><i class="fa fa-eye blue-icon"></i></a>
+        <a href="{% url 'repository.views.download_file' project_status project.uid project.slug document.id %}"><i class="fa fa-download blue-icon"></i></a>
+        <a href="{% url 'repository.views.delete_file' project_status project.uid project.slug document.id %}"><i class="fa fa-times blue-icon"></i></a>
+        <br>
+    {% endfor %}
+{% else %}
+    <p>No documents.</p>
+{% endif %} -->
+
+<div class="row">
+    <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table tables-striped">
+                    <thead>
+                        <tr>
+                            <th>Filename</th>
+                            <th>Size</th>
+                            <th>Uploader</th>
+                            <th>Uploaded at (Date)</th>
+                            <th>Uploaded at (Time)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="files-container">
+                        {% if files %}
+                        {% for document in files %}
+                            <tr id="file-{{ document.id }}">
+                                <td>{{ document.filename }}</td>
+                                <td>{{ document.docfile.size|filesizeformat }}</td>
+                                <td>{{ document.uploaded_by.first_name }} {{ document.uploaded_by.last_name }}</td>
+                                <td>{{ document.created_date|date:"F d, o" }}</td>
+                                <td>{{ document.created_date|date:"h:i a" }}</td>
+                                <td>
+                                    <a class="btn btn-info btn-xs" target="_blank" href="{% url 'repository.views.view_file' project_status project.uid project.slug document.id %}">Open</a>
+                                    <a class="btn btn-warning btn-xs" href="{% url 'repository.views.download_file' project_status project.uid project.slug document.id %}">Download</a>
+                                    {% if document.uploaded_by == user or is_admin %}
+                                    <a class="delete-file btn btn-danger btn-xs" href="{% url 'repository.views.delete_file' project_status project.uid project.slug document.id %}">Delete</a>                            
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    {% else %}
+                        <br>
+                        <p id="no-doc">No documents</p>
+                    {% endif %}
+                </table>
+            </div>
+    </div>
+</div>
+
+<form class="hide" id="add-file-form" action="{% url 'repository.views.upload_file' project_status project.uid project.slug %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>{{ add_file_form.non_field_errors }}</p>
+    <p>{{ add_file_form.docfile.label_tag }}</p>
+    <p>
+        {{ add_file_form.docfile.errors }}
+        {{ add_file_form.docfile }}
+    </p>
+    <p><input type="submit" value="Upload" /></p>
+</form>
+
+{% load staticfiles %}
+<script src="{% static 'repository/js/files.js' %}"></script>
+<script src="{% static 'repository/js/calendar.js' %}"></script>
+

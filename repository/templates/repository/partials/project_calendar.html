@@ -1,0 +1,78 @@
+	
+<div class="row">
+	<div class="col-md-5">
+		<br>
+		<div class="alert alert-info">
+			<ul>
+				<li>Drag and drop events to transfer to another date and to shorten or elongate duration.</li>
+				<li>Drag events to the trash icon to delete.</li>
+				<li>You can only move/delete events that you posted.</li>
+			</ul>
+		</div>
+		<h4>Deadlines</h4>
+		<table class="table table-striped">
+			<tbody>
+				{% for deadline in deadlines %}
+					<tr>
+						<td>
+							{% if deadline.posted_by == user %}
+								<a id="{{ deadline.id }}" class="edit-event" href="#">
+									<i class="fa fa-pencil blue-icon"></i>
+								</a>
+							{% endif %}
+
+							{{ deadline.title }}
+						</td>
+						<td class="text-right">
+							{{ deadline.start_date|date:"F d, o" }}
+							{% if deadline.start_time %}
+								|
+								{{ deadline.start_time|date:"h:i a" }}
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<h4>Journals</h4>
+		<table class="table table-striped">
+			<tbody>
+				{% for journal in journals %}
+					<tr>
+						<td>
+							{% if journal.posted_by == user %}
+								<a id="{{ journal.id }}" class="edit-event" href="#">
+									<i class="fa fa-pencil blue-icon"></i>
+								</a>
+							{% endif %}
+
+							{{ journal.title }}
+						</td>
+						<td class="text-right">
+							{{ journal.start_date|date:"F d, o" }}
+							{% if journal.start_time %}
+								|
+								{{ journal.start_time|date:"h:i a" }}
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="col-md-7">
+		<div class="text-right">
+			<a href='#' type="button" class="btn btn-xs btn-default" data-toggle='modal' data-target='#journal-entry-modal'><i class='fa fa-calendar-o blue-icon'></i> Generate Journal</a>
+		</div>
+		<br>
+		<div id="calendar-holder"></div>
+
+	</div>
+</div>
+
+{% load staticfiles %}
+<script src="{% static 'repository/js/calendar.js' %}"></script>
+{% if project_status == "ongoing" %}
+    <script src="{% static 'repository/js/calendar_control_button.js' %}"></script>
+{% endif %}

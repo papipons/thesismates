@@ -1,0 +1,39 @@
+{% extends "modal.html" %}
+
+{% block modalID %}retrieve-working-files-modal{% endblock modalID %}
+
+{% block modalTitle %}
+    Retrieve working files
+{% endblock modalTitle %}
+
+{% block modalBody %}
+    {% if files %}
+            <p id="no-doc" style="display: none;">No documents</p>
+            <table class="table tables-striped">
+                <thead>
+                    <tr>
+                        <th>Filename</th>
+                        <th>Uploader</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="files-container">
+                    {% for document in files %}
+                        <tr id="file-{{ document.id }}">
+                            <td>{{ document.filename }}</td>
+                            <td>{{ document.uploaded_by }}</td>
+                            <td>
+                                <a class="btn btn-info btn-xs" target="_blank" href="{% url 'repository.views.view_file' project_status project.uid project.slug document.id %}">Open</a>
+                                <a class="btn btn-warning btn-xs" href="{% url 'repository.views.download_file' project_status project.uid project.slug document.id %}">Download</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p id="no-doc">No documents</p>
+        {% endif %}
+{% endblock modalBody %}
+
+{% block modalFooter %}
+{% endblock modalFooter %}

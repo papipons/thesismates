@@ -1,0 +1,101 @@
+<div id="project-control" class="col-md-3">
+	<h3>control</h3>
+	{% if title == "Ongoing Projects" %}
+		{% if is_coor == True %}
+			<span>
+				<a href="#" data-toggle="modal" data-target="#add-project-modal">
+					<i class="fa fa-plus blue-icon"></i>
+					Add Project
+				</a>
+			</span>
+			<br>
+			<span>
+				<a href="#" data-toggle="modal" data-target="#add-event-modal">
+					<i class="fa fa-plus blue-icon"></i>
+					Add Course Wide Event
+				</a>
+			</span>
+			<br>
+			<span>
+				<a href="#" data-toggle="modal" data-target="#assign-available-advisers-modal">
+					<i class="fa fa-plus blue-icon"></i>
+					Assign Available Advisers
+				</a>
+			</span>
+		{% endif %}
+		{% if is_student == True %}
+			<strong>TODO</strong>
+		{% endif %}
+	{% endif %}
+	
+	{% if title == project.title %}
+		<div id="leave-group-notification" style="display: none;" class="alert alert-warning clearfix" role="alert">
+			<button type="button" class="close close-notif">×</button>
+			<strong>Are you sure you want to leave?</strong>
+			<br>
+			<a role="button"  class="btn btn-danger btn-sm close-notif"><i class="fa fa-times-circle"></i> Cancel</a>
+			<a role="button" href="{% url 'repository.views.leave_group' project.status project.uid project.slug %}" id="leave-group-confirmation" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Confirm</a>
+		</div>
+
+		<div id="reached-cap-notification" style="display: none;" class="alert alert-danger clearfix" role="alert">
+			<button type="button" class="close close-notif">×</button>
+			<strong>Storage full!</strong>
+			<span>Please remove unnecessary files</span>
+		</div>
+
+		<div id="insuff-space-notification" style="display: none;" class="alert alert-danger clearfix" role="alert">
+			<button type="button" class="close close-notif">×</button>
+			<strong>Insufficient space!</strong>
+			<span>Please remove unnecessary files</span>
+		</div>
+
+
+		{% if is_coor == True %}
+		<div id="pub-process-notification" style="display: none;" class="alert alert-warning clearfix" role="alert">
+			<button type="button" class="close close-notif">×</button>
+			<strong>Start publication process?</strong>
+			<span>Starting the publication process is irreversable</span>
+			<br>
+			<a role="button"  class="btn btn-danger btn-sm close-notif"><i class="fa fa-times-circle"></i> Cancel</a>
+			<a role="button" href="{% url 'repository.views.start_publication' project.status project.uid project.slug %}" id="pub-process-confirmation" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Confirm</a>
+		</div>
+
+		<span>
+			<a href="#" id="start-publication-process">
+				<i class="fa fa-dot-circle-o blue-icon"></i>
+				Start Publication Process
+			</a>
+		</span>
+		<br>
+		<span>
+			<a href="#" data-toggle="modal" data-target="#add-member-modal">
+				<i class="fa fa-plus blue-icon"></i>
+				Add Member
+			</a>
+		</span>
+		{% endif %}
+
+		<div class="row">
+		<div id="project-nav-control" class="col-md-12"></div>
+		</div>
+
+		<br>
+		<div id="information" class="alert alert-info" role="alert">
+			<strong>Information</strong>
+		</div>
+	{% endif %}
+
+	{% if is_coor == True %}
+		{% if for_confirmation %}
+			<br>
+			<br>
+			{% for project in for_confirmation %}
+				<a href="{% url 'repository.views.project_profile' project_status project.uid project.slug %}">
+					<div class="alert alert-info" role="alert">
+						<p><strong>{{ project.title|title }}</strong> is asking for official documents confirmation.</p>
+					</div>
+				</a>
+			{% endfor %}
+		{% endif %}
+	{% endif %}
+</div>

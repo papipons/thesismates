@@ -1,0 +1,23 @@
+{% load staticfiles %}
+{% load watermark %}
+
+
+<script src="{% static 'repository/js/unveil.js' %}"></script>
+<script src="{% static 'repository/js/view_file.js' %}"></script>
+
+<div class="row">
+	<div class="col-md-12">
+		<ul id="docs">
+		{% for each in urls %}
+			<li>
+				<img draggable="false" class="img-responsive" oncontextmenu="return false;" src="/media/public/utils/loading_spinner.gif" 
+				data-src="{{ each|watermark:'trans, position=c, opacity=50, greyscale=1' }}">
+				<br>
+			</li>
+		{% endfor %}
+		</ul>
+	</div>
+</div>
+
+
+

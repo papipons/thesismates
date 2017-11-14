@@ -1,0 +1,46 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+{% load prettytimes_tags %}
+
+
+{% block title %}
+	Thesismates | Community
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-3">
+			<a href="{{request.META.HTTP_REFERER}}"><i class="fa fa-chevron-left blue-icon"></i> Back</a>
+			<h3>Answer</h3>
+			<form id="answer-form">
+				{% csrf_token %}
+				<div class="form-group">
+					{{ answer_form.answer }}
+				</div>
+
+				<button class="btn btn-default" type="submit">Submit</button>
+			</form>
+		</div>
+		<div class="col-md-9">
+			<h3>{{ question.title }}</h3>
+			<p>{{ question.description }}</p>
+			{% for answer in answers %}
+				<hr align="left">
+				<div>
+					<p>{{ answer.answer }}</p>
+					<br>
+					<span>{{ answer.answered_by.first_name }} {{ answer.answered_by.last_name }}</span>
+					<br>
+					<span>{{ answer.created_date|relative_time }}</span>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block jScripts %}
+	<script src="{% static 'sidebar/sidebar.js' %}"></script>
+	<script src="{% static 'community/js/question.js' %}"></script>
+{% endblock jScripts %}

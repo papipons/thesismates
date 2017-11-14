@@ -1,0 +1,28 @@
+{% if questions %}
+	{% for question in questions %}
+	<div class="col-md-4">
+		<div class="per">
+			<h4 class="per-title">
+				<a class="question-titles" href="{% url 'community.views.question' question.id question.slug%}">{{ question.title }}</a>
+			</h4>
+			<div class="per-desc">
+				{% if question.description %}
+				<p>{{ question.description }}</p>
+				{% else %}
+				<p>No details</p>
+				{% endif %}
+			</div>
+
+			<div class="tags">
+				<span><i class="fa fa-user"></i> {{ question.asked_by.first_name|capfirst }} {{ question.asked_by.last_name|capfirst }}</span>
+				<br>
+				<span><i class="fa fa-clock-o"></i> {{ question.created_date|date:"F d, o | h:i a" }}</span>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+{% else %}
+	<div class="col-md-12">
+		<h4>No results found</h4>
+	</div>
+{% endif %}

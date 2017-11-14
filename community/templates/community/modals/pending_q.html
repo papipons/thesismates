@@ -1,0 +1,30 @@
+{% extends "modal.html" %}
+
+{% block modalID %}pending-q-modal{% endblock modalID %}
+
+{% block modalTitle %}
+	Pending Questions
+{% endblock modalTitle %}
+
+
+
+{% block modalBody %}
+	<div class="row">
+		{% for question in pending_qs %}
+			<div class="col-md-12 request">
+				<h4>{{ question.title }}</h4>
+				<p>{{ question.description }}</p>
+				{% if is_admin %}
+					<a role="button" href="{% url 'community.views.accept' 'question' question.id %}" id="send-confirmation" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Accept</a>
+					<a role="button" href="{% url 'community.views.reject' 'question' question.id %}" class="btn btn-danger btn-sm close-notif"><i class="fa fa-times-circle"></i> Reject</a>
+				{% endif %}
+				{% if not forloop.last %}
+					<hr align="left">
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+{% endblock modalBody %}
+
+{% block modalFooter %}
+{% endblock modalFooter %}

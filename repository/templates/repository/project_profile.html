@@ -1,0 +1,134 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	Thesismates | {{ project.title }}
+{% endblock title %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static 'fullcalendar/css/fullcalendar.css' %}">
+	<link rel="stylesheet" href="{% static 'datetimepicker/css/bootstrap-datetimepicker.min.css' %}">
+{% endblock css %}
+
+{% block modal %}
+	{% include "repository/modals/event_details_modal.html" %}
+	{% include "repository/modals/add_event_modal.html" %}
+	{% include "repository/modals/edit_event_modal.html" %}
+
+	{% if is_member %}
+		{% include "repository/modals/request_adviser_modal.html" %}
+	{% endif %}
+
+	{% include "repository/modals/journal_entry_modal.html" %}
+{% endblock modal %}
+
+{% block content %}
+<div class="container-fluid">
+	<div id="content" class="row">
+		<div class="col-md-12">
+			<a href="{{request.META.HTTP_REFERER}}"><i class="fa fa-chevron-left blue-icon"></i> Back</a>
+		</div>
+		<div class="col-md-12">
+			<span id="project-uid" class="hidden">{{ project.uid }}</span>
+			<h1 id="title-holder">
+				<span id="title">{{ project.title }}</span>
+				{% if project_status == "ongoing" %}
+					{% if user in project.members.all %}
+						<a id="edit-project-title" class="h4" href="#" data-toggle="tab" title="Edit project title" data-placement="right">
+							<i class="fa fa-pencil blue-icon"></i>
+						</a>
+					{% endif %}
+				{% endif %}
+			</h1>
+		
+			{% if project_status == "ongoing" %}
+				<form style="display: none;" id="edit-title-form" method="post">
+					<br>
+				    {% csrf_token %}
+				    <div class="input-group">
+				        {{ edit_title_form.title }}
+				        <span class="input-group-btn">
+			                <button class="btn btn-default" type="submit">Save</button>
+						</span>
+				    </div>
+	                <span id="title-error"></span>
+					<br>
+				</form>
+
+				{% if is_coor %}
+				    <button id="start-publication-process" class="btn btn-xs btn-default">
+				        <i class="fa fa-dot-circle-o blue-icon"></i>
+				        Start Publication Process
+				    </button>
+				    <br>
+				    <hr align="left">    
+				{% endif %}
+			{% endif %}
+			
+			<ul class="nav nav-tabs sub-nav">
+				<li class="active">
+					<a id="profile" data-toggle="tab" title="Info" class="profile-link">
+						<span class="round-tabs one">
+							<i class="fa fa-info"></i>
+						</span> 
+					</a>
+				</li>
+
+				{% if project.status == "published" %}
+					{% if has_ongoing or is_admin %}
+						<li>
+							<a id="documentation" data-toggle="tab" title="Documentation" class="profile-link">
+								<span class="round-tabs one">
+									<i class="fa fa-files-o"></i>
+								</span> 
+							</a>
+						</li>
+					{% endif %}
+				{% endif %}
+
+				{% if project.status != "published" %}
+					{% if user in project.members.all or is_admin or allowed %}
+						<li>
+							<a id="calendar" data-toggle="tab" title="Calendar" class="profile-link">
+								<span class="round-tabs one">
+									<i class="fa fa-calendar"></i>
+								</span> 
+							</a>
+						</li>
+
+							<li>
+								<a id="files" data-toggle="tab" title="Files" class="profile-link">
+									<span class="round-tabs one">
+										<i class="fa fa-files-o"></i>
+									</span> 
+								</a>
+							</li>
+
+						<li>
+							<a id="log" data-toggle="tab" title="Log" class="profile-link">
+								<span class="round-tabs one">
+									<i class="fa fa-clock-o"></i>
+								</span> 
+							</a>
+						</li>
+					{% endif %}
+				{% endif %}
+			</ul>
+			
+			<br>
+
+			<div id="profile-content"></div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}
+
+{% block jScripts %}
+	<script src="{% static 'fullcalendar/js/moment.min.js' %}"></script>
+	<script src="{% static 'fullcalendar/js/fullcalendar.js' %}"></script>
+	<script src="{% static 'datetimepicker/js/bootstrap-datetimepicker.js' %}"></script>
+	<script src="{% static 'countable.js' %}"></script>
+	<script src="{% static 'repository/js/project_profile.js' %}"></script>
+{% endblock jScripts %}

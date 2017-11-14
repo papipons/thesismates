@@ -1,0 +1,166 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	{% if notif_count %}
+		({{ notif_count }})
+	{% endif %}
+	Thesismates | {{ title }} 
+{% endblock title %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static 'fullcalendar/css/fullcalendar.css' %}">
+	<link rel="stylesheet" href="{% static 'datetimepicker/css/bootstrap-datetimepicker.min.css' %}">
+	<link rel="stylesheet" href="{% static 'datatables/css/dataTables.bootstrap.css' %}">
+{% endblock css %}
+
+{% block modal %}
+		{% include "repository/modals/program_modal.html" %}
+	{% if title == "Ongoing Projects" %}
+		{% include "repository/modals/add_project_modal.html" %}
+		{% if is_coor or is_admin %}
+			{% include "repository/modals/add_event_modal.html" %}
+			{% include "repository/modals/available_advisers_modal.html" %}
+			{% include "repository/modals/edit_event_modal.html" %}
+		{% endif %}
+
+		{% if advisoree_requests %}
+			{% include "repository/modals/requests_modal.html" %}
+		{% endif %}
+		
+		{% include "repository/modals/notification_modal.html" %}
+	{% endif %}
+{% endblock modal %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-9">
+			<h3 class="easy-sidebar-toggle">
+				Menu
+				<i class="fa fa-angle-double-right"></i>
+			</h3>
+			<h2>{{ project_status|title }} Projects</h2>
+			<div id="control">
+			{% if project_status = "ongoing" %}
+			{% if is_coor or is_admin %}
+				<a href="#" type="button" class="btn btn-xs btn-default" data-toggle="modal" data-target="#add-project-modal">
+					<i class="fa fa-plus blue-icon"></i>
+					Add Project
+				</a>
+				<a href="#" type="button" class="btn btn-xs btn-default" data-toggle="modal" data-target="#add-event-modal">
+					<i class="fa fa-plus blue-icon"></i>
+					Add Course Wide Event
+				</a>
+				<a href="#" type="button" class="btn btn-xs btn-default" data-toggle="modal" data-target="#assign-available-advisers-modal">
+					<i class="fa fa-plus blue-icon"></i>
+					Add Available Advisers
+				</a>
+			{% endif %}
+
+				<a type="button" class="btn btn-xs btn-default" href="#" data-toggle="modal" data-target="#notification-modal">
+					{% if notif_count %}
+						<i class="fa fa-bell text-danger"></i>
+						<strong class="text-danger">{{ notif_count }}</strong>
+					{% else %}
+						<i class="fa fa-bell blue-icon"></i>
+					{% endif %}
+					Notifications
+				</a>
+
+				{% if advisoree_requests %}
+					<a type="button" class="btn btn-xs btn-default" href="#" data-toggle="modal" data-target="#requests-modal">
+						<i class="fa fa-exclamation-triangle text-danger"></i>
+						<strong class="text-danger">{{ requests_count }} </strong>
+						{% if requests_count == 1 %}
+							Request
+						{% else %}
+							Requests
+						{% endif %}
+					</a>
+				{% endif %}
+			{% endif %}
+
+			{% if project_status == "published" %}
+				{% if is_admin %}
+					<a type="button" id="generate-report" class="btn btn-xs btn-default" data-toggle="modal" data-target="#program-modal">
+					    <i class="fa fa-dot-circle-o blue-icon"></i>
+						Generate thesis report
+					</a>
+					<br>
+				{% endif %}
+			{% endif %}
+			</div>
+		</div>
+	</div>
+	<hr align="left">
+	<div class="row" id="projects">
+		<div class="col-md-12">
+		{% if projects %}
+			<table id="projects-table" class="table table-hover display">
+				<thead>
+					<tr>
+						<th>Project Title</th>
+						<th>Member</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for project in projects %}
+						<tr>
+							<td>
+								<a class="project-titles" href="{% url 'repository.views.project_profile' project_status project.uid project.slug %}">{{ project.title }}</a>
+							</td>
+
+							<td class="text-right">
+								{% if project_status == "ongoing" %}
+									{% if user in project.members.all %}
+										<span class="label label-success">Member</span>
+									{% else %}
+										<span class="invisible">zzz</span>
+									{% endif %}
+
+									{% if user == project.adviser.faculty %}
+										<span class="label label-warning">Adviser</span>
+									{% else %}
+										<span class="invisible">zzz</span>
+									{% endif %}
+
+									{% if user == project.coordinator.faculty %}
+										<span class="label label-primary">Coordinator</span>
+									{% else %}
+										<span class="invisible">zzz</span>
+									{% endif %}
+								{% endif %}
+
+								<span class="label label-default">{{ project.coordinator.course }}</span>
+								<span class="label label-default">{{ project.coordinator.course.program.code }}</span>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<h4>No {{ project_status }} projects</h4>
+		{% endif %}
+		</div>
+
+		
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block jScripts %}
+		<script src="{% static 'datatables/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'datatables/js/dataTables.bootstrap.js' %}"></script>
+	{% if title == "Ongoing Projects" %}
+		<script src="{% static 'fullcalendar/js/moment.min.js' %}"></script>
+		<script src="{% static 'fullcalendar/js/fullcalendar.js' %}"></script>
+		<script src="{% static 'datetimepicker/js/bootstrap-datetimepicker.js' %}"></script>
+		<script src="{% static 'repository/js/project.js' %}"></script>
+	{% else %}
+		<script src="{% static 'repository/js/published.js' %}"></script>
+	{% endif %}
+		<script src="{% static 'highlight.js' %}"></script>
+		<script src="{% static 'repository/js/search.js' %}"></script>
+{% endblock jScripts %}

@@ -1,0 +1,53 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	{{ project.title }}
+{% endblock title %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static 'fullcalendar/css/fullcalendar.css' %}">
+	<link rel="stylesheet" href="{% static 'datetimepicker/css/bootstrap-datetimepicker.min.css' %}">
+{% endblock css %}
+
+{% block modal %}
+	{{ add_event_form.media }}
+	{% include "repository/modals/event_details_modal.html" %}
+	{% include "repository/modals/add_event_modal.html" %}
+	{% include "repository/modals/add_member_modal.html" %}
+	{% include "repository/modals/journal_entry_modal.html" %}
+{% endblock modal %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-9">
+			<span id="project-uid" class="hidden">{{ project.uid }}</span>
+			<h3>{{ project.title }}</h3>
+			<div class="btn-group" role="group" aria-label="...">
+				<button id="profile" type="button" class="btn btn-default profile-link active">Profile</button>
+				<button id="calendar" type="button" class="btn btn-default profile-link">Calendar</button>
+				<button id="files" type="button" class="btn btn-default profile-link">Files</button>
+				<button id="log" type="button" class="btn btn-default profile-link">Log</button>
+			</div>
+
+			<div id="profile-content" class="white-box">
+			</div>
+		</div>
+		{% if title == project.title %}
+			{% if project.published_date == None %}
+				{% include "repository/project_control.html" %}
+			{% endif %}
+		{% endif %}
+	</div>
+</div>
+
+
+{% endblock content %}
+
+{% block jScripts %}
+	<script src="{% static 'fullcalendar/js/moment.min.js' %}"></script>
+	<script src="{% static 'fullcalendar/js/fullcalendar.js' %}"></script>
+	<script src="{% static 'datetimepicker/js/bootstrap-datetimepicker.js' %}"></script>
+	<script src="{% static 'repository/js/project_profile.js' %}"></script>
+{% endblock jScripts %}

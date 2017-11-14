@@ -1,0 +1,66 @@
+<nav class="navbar navbar-default easy-sidebar">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <div id="logo-container">
+        <img draggable="false" id="sti-logo" src="/media/public/utils/stilogo.png" class="img-responsive" alt="">
+      </div>
+      <h1 class="navbar-brand">{{ user.first_name }} {{ user.last_name }}</h1>
+    </div>
+
+    <ul class="nav navbar-nav">
+      <li {% if project_status == "ongoing" %}class="active"{% endif %}>
+        <a href="/">
+          <span class="small-nav"> 
+            <i class="fa fa-gavel"></i>
+            Ongoing Projects
+          </span>
+        </a>
+      </li>
+      <li {% if project_status == "published" %}class="active"{% endif %}>
+        <a href="{% url 'repository.views.projects' 'published' %}">
+          <span class="small-nav"> 
+            <i class="fa fa-archive"></i>
+            Published Projects
+          </span>
+        </a>
+      </li>
+        <li {% if community %}class="active"{% endif %}>
+          <a href="{% url 'community.views.community' %}">
+            <span class="small-nav"> 
+              <i class="fa fa-university"></i>
+              Community
+            </span>
+          </a>
+        </li>
+        {% if is_admin %}
+        <li {% if manage %}class="active"{% endif %}>
+          <a href="{% url 'admin_control.views.manage' %}">
+            <span class="small-nav"> 
+              <i class="fa fa-user-secret"></i>
+              Admin Control
+            </span>
+          </a>
+        </li>
+        {% endif %}
+
+        <li  {% if account %}class="active"{% endif %}>
+          <a href="{% url 'core.views.account' %}">
+            <span class="small-nav"> 
+              <i class="fa fa-user"></i>
+              Account
+            </span>
+          </a>
+        </li>
+        <li >
+          <a href="{% url 'core.views.log_out' %}">
+            <span class="small-nav" title="Log Out"> 
+              <i class="fa fa-power-off"></i>
+              Log out
+            </span>
+          </a>
+        </li>
+    </ul>
+
+  </div>
+</nav>

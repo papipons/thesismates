@@ -1,0 +1,80 @@
+{% extends "easy_pdf/base.html" %}
+
+{% block extra_style %}
+	<style type="text/css">
+		#header {
+			text-align: center;
+		}
+
+		#content {
+			font-size: 15px;
+		}
+
+		td[rowspan] {
+		  vertical-align: top;
+		  text-align: left;
+		}
+
+	</style>
+{% endblock extra_style %}
+
+{% block content %}
+	<div id="header">
+		<h1>JOURNAL</h1>
+		<h2><u>{{ start }} - {{ end }}</u></h2>
+		<br>
+	</div>
+	<div id="content">
+		<table>
+			<tbody>
+				{% for journal in journals %}
+					<tr>
+						<td style="width: 60%;"><strong>Date</strong></td>
+						<td style="width: 15%;"><strong>:</strong></td>
+						<td><span><strong><u>{{ journal.start_date }}</u></strong></span></td>
+					</tr>
+					{% for member in journal.included_members.all %}
+					<tr>
+						{% if forloop.first %}
+						<td rowspan="{{ journal.included_members.all.count }}"><strong>Name of Members</strong></td>
+						<td rowspan="{{ journal.included_members.all.count }}"><strong>:</strong></td>
+						{% endif %}
+						<td>{{ member.last_name|capfirst }}, {{ member.first_name|capfirst }}</td>
+					</tr>
+					{% endfor %}
+					<tr>
+						<td><strong>Description of Activity</strong></td>
+						<td><strong>:</strong></td>
+						<td>{{ journal.title }}</td>
+					</tr>
+					<tr>
+						<td><strong>Results</strong></td>
+						<td><strong>:</strong></td>
+						<td>{{ journal.notes }}</td>
+					</tr>
+
+					<tr>
+						<td><br></td>
+					</tr>
+					<tr>
+						<td><br></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		{% if adviser %}
+		<br>
+		<strong><span><u>{{ adviser.first_name }} {{ adviser.last_name }}</u></span></strong>
+		<br>
+		<span>Thesis Adviser</span>
+		{% endif %}
+
+		<br>
+		<br>
+		<span>Prepared by:</span>
+		<br>
+		<strong><span><u>{{ user.first_name }} {{ user.last_name }}</u></span></strong>
+
+	</div>
+{% endblock content %}

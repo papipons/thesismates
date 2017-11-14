@@ -1,0 +1,44 @@
+{% extends "modal.html" %}
+
+{% block modalID %}add-project-modal{% endblock modalID %}
+
+{% block modalTitle %}
+	Add new project
+{% endblock modalTitle %}
+
+{% block modalBody %}
+	<form id="add-project-form" method="post" action="#">
+	{% csrf_token %}
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label for="id_title">Project Title: </label>
+					{{ add_project_form.title }}
+				</div>
+
+				<div class="form-group">
+					<label for="id_title">Course: </label>
+					<select name="coordinator" id="id_coordinator" style="width: 100%" class="django-select2 form-control">
+						{% for course in courses %}
+							<option value="{{ course.id }}">{{ course.course.name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="id_user">Add Member: </label>
+					{{ add_member_form.user }}
+				</div>
+
+				<div class="form-group text-right">
+				    <button id="next" type="submit" class="btn btn-primary">Add</button>
+				</div>
+
+				<p id="add-project-form-response" class="text-success"></p>
+			</div>
+	    </div>
+	</form>	
+{% endblock modalBody %}
+
+{% block modalFooter %}
+{% endblock modalFooter %}

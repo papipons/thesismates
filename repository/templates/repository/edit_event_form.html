@@ -1,0 +1,83 @@
+<form id="edit-event-form" method="post" action="#">
+{% csrf_token %}
+	<span id="event-id" style="display: none;">{{ event.id }}</span>
+	<span id="event-type" style="display: none;">{{ event.event_type }}</span>
+	
+	{% if event.event_type == "deadline" %}
+			<div class="form-group">
+				<label for="id_title">Deadline for:</label>
+				{{ add_deadline_event_form.title }}
+			</div>
+
+			<div class="form-group">
+				<label for="id_start">Deadline:</label>
+				<div id="deadline-date-picker" class='input-group date datepicker'>
+		            {{ add_deadline_event_form.start_date }}
+		            <span class="input-group-addon">
+		                <span class="glyphicon glyphicon-calendar"></span>
+		            </span>
+
+		        </div>
+			</div>
+
+			<div class="form-group">
+				<div class='input-group date timepicker'>
+		            {{ add_deadline_event_form.start_time }}
+		            <span class="input-group-addon">
+		                <span class="glyphicon glyphicon-time"></span>
+		            </span>
+		        </div>
+			</div>
+
+			<div class="form-group">
+				<label for="id_notes">Notes:</label>
+		        {{ add_deadline_event_form.notes }}
+			</div>
+
+	{% else %}
+
+		<div class="form-group">
+			<label for="id_title">Description of Activity:</label>
+			{{ add_journal_event_form.title }}
+		</div>
+
+		<div class="form-group">
+			<label for="id_start">Date:</label>
+			<div id="journal-start-date-picker" class='input-group date datepicker'>
+                {{ add_journal_event_form.start_date }}
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+		</div>
+
+		<div class="form-group">	
+			<label for="id_start">Included Members:</label>
+			{% for member in members %}
+				<div class="checkbox">
+		         <label>
+		           <input value="{{ member.id }}" class="included-members" type="checkbox"
+						{% if member in event.included_members.all %}
+							checked
+						{% endif %}
+		           	>
+		           <span class="cr"><i class="fa fa-check cr-icon"></i></span>
+		           {{ member.first_name }} {{ member.last_name }}
+		         </label>
+		       </div>
+			{% endfor %}
+		</div>
+
+		<div class="form-group">
+			<label for="id_notes">Results:</label>
+            {{ add_journal_event_form.notes }}
+		</div>
+
+	{% endif %}
+
+	<div class="form-group text-right">
+	    <button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+
+	<p id="edit-vent-form-response" class="text-success"></p>
+</form>

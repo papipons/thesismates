@@ -1,0 +1,52 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	Thesismates | Log In
+{% endblock title %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static 'core/landing.css' %}">
+	{% endblock css %}
+
+{% block modal %}
+	
+{% endblock modal %}
+
+{% block content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="login-container">
+				<div id="sti-logo-container">
+					<img draggable="false" id="sti-logo" src="/media/public/utils/stilogo.png" class="img-responsive" alt="">
+				</div>
+	            <div class="form-box">
+	            	<form method="post" action="/">
+	            	{% csrf_token %}
+
+	            		{% if form.errors %}
+	            		<p class="text-danger">Your username and password didn't match. Please try again.</p>
+	            		{% endif %}
+
+	            			<input id="id_username" type="text" name="username" maxlength="254" placeholder="Username or Email">
+	            			<input id="id_password" type="password" name="password" placeholder="Password">
+
+	            		<button class="btn btn-info btn-block login" type="submit">Login</button>
+	            		<input type="hidden" name="next" value="/" />
+	            		<br>
+	            		<span><a href="{% url 'core.views.sign_up' %}">Sign up</span>
+	            		<span>|</span>
+	            		<span><a href="{% url 'django.contrib.auth.views.password_reset' %}">Forgot password?</span>
+	            	</form>
+	            </div>
+	        </div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block jScripts %}
+{% endblock jScripts %}

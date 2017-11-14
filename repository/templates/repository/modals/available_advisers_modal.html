@@ -1,0 +1,65 @@
+{% extends "modal.html" %}
+
+{% block modalID %}assign-available-advisers-modal{% endblock modalID %}
+
+{% block modalTitle %}
+	Assign available advisers
+{% endblock modalTitle %}
+
+{% block modalSize %}
+	modal-lg
+{% endblock modalSize %}
+
+{% block modalBody %}
+	<div class="row">
+		<div class="col-md-9">
+			<table id="available-advisers-table" class="table table-condensed table-striped table-hover display">
+				<thead>
+					<tr>
+						<th>Course</th>
+						<th>Faculty</th>
+						<th>Project</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for assignment in available_advisers %}
+						<tr>
+							<td>{{ assignment.course }}</td>
+							<td>{{ assignment.faculty.first_name }} {{ assignment.faculty.last_name }}</td>
+							<td>None</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-3">
+			<form id="aaa-form" action="#" method="POST">
+			{% csrf_token %}
+				<div class="form-group">
+					<label for="id_title">Course: </label>
+					<select name="coordinator" id="id_coordinator" style="width: 100%" class="django-select2">
+						{% for course in courses %}
+							<option value="{{ course.course.id }}">{{ course.course.name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="id_faculty">Faculty</label>
+					<select name="coordinator" id="id_faculty" style="width: 100%" class="django-select2">
+						{% for user in faculty %}
+							<option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }} ({{ user.email }})</option>
+						{% endfor %}
+					</select>
+				</div>
+
+				<button class="btn btn-default" type="submit">Add</button>
+				<p id="aaa-form-response" class="text-success"></p>
+			</form>
+
+		</div>
+	</div>
+{% endblock modalBody %}
+
+{% block modalFooter %}
+{% endblock modalFooter %}

@@ -1,0 +1,60 @@
+{% extends "modal.html" %}
+{% load prettytimes_tags %}
+
+{% block modalID %}notification-modal{% endblock modalID %}
+
+{% block modalTitle %}
+	Notifications
+{% endblock modalTitle %}
+
+{% block modalSize %}
+	modal-lg
+{% endblock modalSize %}
+
+{% block modalBody %}
+	<div class="row">
+		<div class="col-md-7">
+			<h4>Recent Activities</h4>
+			{% if notifications %}
+				{% for notification in notifications %}
+					<p>{{ notification.actor.first_name|capfirst }} {{ notification.actor.last_name|capfirst }} {{ notification.message }}</p>
+					<p><i class="fa fa-clock-o"></i> {{ notification.created_date|relative_time }}</p>
+
+					{% if not forloop.last %}
+						<hr align="left">
+					{% endif %}
+				{% endfor %}
+			{% else %}
+				<p>No Recent Activities</p>
+			{% endif %}
+		</div>
+		<div class="col-md-5">
+			<h4>Upcoming deadlines</h4>
+			{% if near_events %}
+				{% for event in near_events %}
+					<strong>{{ event.title }}</strong>
+					<p>
+						Deadline: 
+						<strong>
+							{{ event.start_date|date:"F d, o" }} 
+							{% if event.start_time %}
+								| 
+								{{ event.start_time|time:"h:i a" }}
+							{% endif %}
+						</strong>
+						<br>
+					</p>
+					<p>{{ event.notes }}</p>
+					{% if not forloop.last %}
+						<hr align="left">
+					{% endif %}
+				{% endfor %}
+			{% else %}
+				<p>No upcoming events</p>
+			{% endif %}
+		</div>
+	</div>
+{% endblock modalBody %}
+
+{% block modalFooter %}
+{% endblock modalFooter %}

@@ -1,0 +1,42 @@
+{% if projects %}
+	{% for project in projects %}
+		<div class="col-md-4">
+			<div 
+				{% if project.status == 'ongoing' %}
+					class='per badger-right badger-info' data-badger='ongoing'
+				{% elif project.status == 'publication' %}
+					class='per badger-right badger-success' data-badger='finalization'
+				{% elif project.status == 'confirmation' %}
+					class='per badger-right badger-danger' data-badger='confirmation'
+				{% elif project.status == 'processing' %}
+					class='per badger-right badger-warning' data-badger='processing'
+				{% elif project.status == 'published' %}
+					class='per'
+				{% endif %}
+
+				>
+
+				<h4 class="per-title"><a class="project-titles" href="{% url 'repository.views.project_profile' project_status project.uid project.slug %}">{{ project.title }}</a></h4>
+				<div class="per-desc">
+					<p>{{ project.abstract }}</p>
+				</div>
+				<div class="tags">
+					<span class="label label-info">{{ project.coordinator.course|title }}</span>
+					{% if project_status == "ongoing" %}
+						{% if project.coordinator.faculty == request.user %}
+			                <span class="label label-default">Coordinator</span>
+						{% endif %}
+
+						{% if project.adviser.faculty == request.user %}
+			                <span class="label label-default">Adviser</span>
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+{% else %}
+	<div class="col-md-12">
+		<h4>No Results Found</h4>
+	</div>
+{% endif %}

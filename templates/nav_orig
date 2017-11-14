@@ -1,0 +1,40 @@
+ <div class="navbar navbar-blue navbar-twitch" role="navigation">
+  <div class="container">
+    <div class="text-center">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/">
+            <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Projects"> 
+              <i class="fa fa-archive"></i>
+            </span>
+          </a>
+        </li>
+          <li >
+            <a href="{% url 'community.views.community' %}">
+              <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Community"> 
+                <i class="fa fa-comments"></i>
+              </span>
+            </a>
+          </li>
+      </ul>
+      <div id="bot-nav">
+        <ul class="nav navbar-nav" >
+          <li >
+            <a href="{% url 'core.views.account' %}">
+              <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Account"> 
+                <i class="fa fa-user"></i>
+              </span>
+            </a>
+          </li>
+          <li >
+            <a href="{% url 'core.views.log_out' %}">
+              <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Log Out"> 
+                <i class="fa fa-power-off"></i>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div><!--/.nav-collapse -->
+  </div>
+ </div>

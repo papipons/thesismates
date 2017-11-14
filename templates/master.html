@@ -1,0 +1,109 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html class="easy-sidebar-active" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/media/public/utils/tm-logo-blue.png" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>
+    {% block title %}
+    {% endblock title %}
+    </title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+
+    <!-- Bootstrap Switch -->
+    <link rel="stylesheet" href="{% static 'bootstrapswitch/css/bootstrap-switch.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'fontawesome/css/font-awesome.min.css' %}">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="{% static 'googlefonts/googlefont.css' %}">
+
+    <link rel="stylesheet" href="{% static 'sidebar/easy-sidebar.css' %}">
+    <!-- Custom -->
+    <link rel="stylesheet" href="{% static 'thesismates.css' %}">
+
+    <link rel="stylesheet" href="{% static 'responsive.css' %}">
+
+    <link rel="stylesheet" href="{% static 'sweet_alert.css' %}">
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" type="text/css" rel="stylesheet" />
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    {% block css %}
+      
+    {% endblock css %}
+
+  </head>
+
+  <body>
+  <div id="loader" style="display: none;"></div>
+
+  {% if user.is_authenticated %}
+    {% include "sidebar.html" %}
+
+    <div id="user-container">
+    <span id="user-fullname" class="label">
+    {{ request.user.first_name|title }} {{ request.user.last_name|title }}
+    </span>
+  </div>
+  {% endif %}
+
+  <div class="container-fluid easy-sidebar-container" id="master-content">
+  {% if user.is_authenticated %}
+        {% include "nav.html" %}
+  {% endif %}
+
+  {% block modal %}
+    
+  {% endblock modal %}
+
+  {% block content %}
+    
+  {% endblock content %}
+
+  <script src="{% static 'jquery.js' %}"></script>
+
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+  <!-- Django-ajax -->
+  <script type="text/javascript" src="{% static 'django_ajax/js/jquery.ajax.min.js' %}"></script>
+
+  <script src="{% static 'spin.js' %}"></script>
+
+  <script src="{% static 'alphanum.js' %}"></script>
+
+  <script src="{% static 'clamp.js' %}"></script>
+  <!-- Thesismates -->
+  <script src="{% static 'thesismates.js' %}"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+  <script src="{% static 'django_select2/django_select2.js' %}"></script>
+
+  <script src="{% static 'sweet_alert.js' %}"></script>
+
+  <script src="{% static 'sidebar/easy-sidebar.js' %}"></script>
+
+  <script src="{% static 'sidebar/sidebar.js' %}"></script>
+  {% block jScripts %}
+    
+  {% endblock jScripts %}
+
+  {% include 'session_security/all.html' %}
+
+  </div>
+  </body>
+</html> 

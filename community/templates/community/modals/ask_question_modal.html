@@ -1,0 +1,33 @@
+{% extends "modal.html" %}
+
+{% block modalID %}ask-question-modal{% endblock modalID %}
+
+{% block modalTitle %}
+	Ask a question
+{% endblock modalTitle %}
+
+
+{% block modalBody %}
+	<div class="row">
+		<div class="col-md-12">
+			<form id="ask-question-form" action="#" method="POST">
+			{% csrf_token %}
+				<div class="form-group">
+					<label for="id_title">Question</label>
+					{{ ask_form.title }}
+				</div>
+
+				<div class="form-group">
+					<label for="id_description">Details</label>
+					{{ ask_form.description }}
+				</div>
+
+				<button class="btn btn-default" type="submit">Ask away</button>
+				<p id="ask-question-form-response" class="text-success"></p>
+			</form>
+		</div>
+	</div>
+{% endblock modalBody %}
+
+{% block modalFooter %}
+{% endblock modalFooter %}

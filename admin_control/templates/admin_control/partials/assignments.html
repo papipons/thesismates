@@ -1,0 +1,53 @@
+<div class="row">
+	<div class="col-md-3">
+		<strong>Add Assignment</strong>
+		<form id="add-assignment-form" action="#" method="POST">
+		{% csrf_token %}
+			<div class="form-group">
+				<label for="id_course">Course</label>
+				{{ form.course }}
+			</div>
+			<div class="form-group">
+				<label for="id_coordinator">Coordinator</label>
+				<select name="coordinator" id="id_faculty" style="width: 100%" class="django-select2">
+					{% for user in faculty %}
+						<option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }} ({{ user.email }})</option>
+					{% endfor %}
+				</select>
+			</div>
+
+			<button class="btn btn-default" type="submit">Add</button>
+			<p id="add-assignment-form-response" class="text-success"></p>
+		</form>
+	</div>
+	<div class="col-md-9">
+		<div>
+			<table id="assignments-table" class="table table-condensed table-striped table-hover display">
+				<thead>
+					<tr>
+						<th>Course</th>
+						<th>User</th>
+						<th>Assignment</th>
+						<th>Semester</th>
+						<th>School Year</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for assignment in assignments %}
+						<tr>
+							<td>{{ assignment.course }}</td>
+							<td>{{ assignment.faculty.first_name }} {{ assignment.faculty.last_name }}</td>
+							<td>{{ assignment.assignment | capfirst }}</td>
+							<td>{{ assignment.semester }}</td>
+							<td>{{ assignment.start_sy}} - {{ assignment.end_sy }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+{% load staticfiles %}
+<script src="{% static 'admin_control/js/assignments.js' %}"></script>
+

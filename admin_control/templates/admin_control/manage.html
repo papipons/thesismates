@@ -1,0 +1,44 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	Thesismates | Admin - Control
+{% endblock title %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static 'datatables/css/dataTables.bootstrap.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div id="content" class="row">
+		<div class="col-md-12">
+			<h3 class="easy-sidebar-toggle">
+				Menu
+				<i class="fa fa-angle-double-right"></i>
+			</h3>
+			<h1>Admin Control</h1>
+
+			<div class="btn-group sub-nav" role="group" aria-label="...">
+				<button id="programs" type="button" class="btn btn-default manage-link active">Programs</button>
+				<button id="courses" type="button" class="btn btn-default manage-link">Courses</button>
+				<button id="assignments" type="button" class="btn btn-default manage-link">Course Assignments</button>
+				<button id="users" type="button" class="btn btn-default manage-link">Users</button>
+				<button id="settings" type="button" class="btn btn-default manage-link">System Configuration</button>
+			</div>
+
+			<hr align="left">
+		</div>
+
+		<div id="manage-content" class="col-md-12 white-box">
+		</div>
+	</div>
+</div>
+
+{% endblock content %}
+
+{% block jScripts %}
+	<script src="{% static 'datatables/js/jquery.dataTables.min.js' %}"></script>
+	<script src="{% static 'datatables/js/dataTables.bootstrap.js' %}"></script>
+	<script src="{% static 'admin_control/js/manage.js' %}"></script>
+{% endblock jScripts %}

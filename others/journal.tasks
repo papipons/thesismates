@@ -1,0 +1,302 @@
+TO DO:
+    ✔ Change Journal input @done (16-01-02 03:41)
+       ✔ Date,  @done (16-01-02 01:24)
+       ✔ Members, @done (16-01-02 03:41)
+       ✔ Description of Activity,  @done (16-01-02 01:24)
+       ✔ Results @done (16-01-02 01:24)
+    ✔ Make journal event one date only, not range @done (16-01-02 03:41)
+    ✔ Change format of the generated journal @done (16-01-02 03:41)
+    ☐ Actions' visible/readable/obvious responses @high
+    ☐ Pagination
+       Ongoing
+       Published
+       Ongoing project files
+       Project log
+    ✔ Make cron job for back up every when? @critical @done (16-01-14 15:36)
+    ☐ Show all after search
+    ☐ Fix signup page, center form
+    ✔ Reset password @critical @done (16-01-14 17:07)
+    ☐ Information Section
+    ☐ Project filter per course @high
+    ☐ Add course data @critical
+    ☐ Course inline edit on form @critical
+    ☐ Edit event @critical
+    ☐ Delete ongoing project (coord, It head) @high
+    ☐ Avoid uploading of unknown files
+    ✔ Edit Account format (one submit button only) @done (16-01-02 23:14)
+    ☐ Edit Community format
+    ✔ Change project title name on publication process @critical @done (16-01-14 01:05)
+    ✔ Courses selection should be current courses of the sem SY @done (16-01-02 00:01)
+
+ 
+Notes:
+  Virtual server set up process
+    ☐ apt-get update
+    ☐ apt-get upgrade
+    ☐ apt-get install python-pip
+    ☐ apt-get install python-dev
+    ☐ apt-get install apache2
+    ☐ apt-get install mysql-server
+    ☐ apt-get install libmysqlclient-dev
+    ☐ apt-get install libmagickwand-dev
+    ☐ apt-get install libapache2-mod-wsgi
+    ☐ apt-get install libapache2-mod-python
+    ☐ pip install virtualenv
+    ☐ pip install virtualenvwrapper
+    ☐ mkvirtualenv thesismates
+    ☐ ~/home$ mkdir sites
+    ☐ cd sites
+    ☐ git clone https://shinjimaru01@bitbucket.org/shinjimaru01/thesismates.git
+    ☐ setvirtualenvproject ~/.virtualenvs/thesismates ~/sites/thesismates
+    ☐ nano /etc/apache2/sites-available/000-default.conf
+
+  Starting Celery
+    celery -A thesismates worker -l info
+
+
+June 20, 2015:
+  Added admin control app
+  Added course model
+
+June 25, 2015:
+  Added CRUD course
+
+July 3, 2015:
+  Added model for admin settings
+  Added interface for admin settings
+  Added model for term courses
+
+July 4, 2015:
+  Added interface for term courses coordinators
+  Added course coordinator assignment
+  Added no same assignment validation
+
+July 21, 2015:
+  Created interface for listing and adding users
+  Added Add user with email
+  Added Send random string for temporary password
+
+August 4, 2015:
+  Added project model
+
+August 7, 2015:
+  Added project profile
+  Added project calendar
+
+August 9, 2015:
+  Added create new project
+  Added add 
+
+August 13, 2015:
+  Added project profile access restrictions
+  Added project code / student sign up
+
+August 26, 2015:
+  Added HTML for project filters
+  Added HTML for the following
+    Requesting an Ad viser 
+    Adding member to a project 
+    Adding a file
+  Made the events in project calendar uneditable if the creator of the event is not the logged in user
+  Added Event details view on event click
+  Added Add event HTML
+  Added DateTime picker with duration filters of end and start date on Add Event
+  Added Add Event functionality
+
+August 27, 2015:
+  Added drag/drop for editing days and save to DB
+  Added event days duration resize and save to DB
+  Refetch events and hide modal after adding new event
+  Reset input content on add event modal show
+
+September 1, 2015:
+  Added Add deadline event functionality
+  Added get events where event is later than a given date
+
+September 3, 2015:
+  Added delete event functionality
+  Fixed Add, update, delete bugs
+
+September 5, 2015:
+  Added "All day" function on journal and todo event creation
+  Fixed html element toggle on journal and todo event creation
+  Fixed min/max date on linked datepickers
+
+September 8, 2015:
+  Added upload file
+  Added download file
+  Added restrictions on download file and hid the direct link
+
+September 10, 2015:
+  Refactored source code for oragnization and information hiding
+  Added notes to events
+  Fixed min/max date restrictions on datepickers depending on event type
+
+September 12, 2015:
+  Fixed course/coordinator assignment to a project
+
+September 15, 2015:
+  Added convert each page of PDF to image
+  Increased quality of the converted image
+  Added uuid to projects for public display ID
+  Added view documentation functionality
+  Restricted access to view documentation
+  Restricted access to view 
+  Changed media directory for security purposes
+  Disabled right-click to images for users who doesn't know much in web
+
+September 20, 2015:
+  Updated User, Project, and Project Membership model
+  Added HOME interface for ongoing project management (Student/Faculty)
+  Made project page display published projects only
+  Added project attributes visibility restrictions
+  Added member and admin only access to ongoing projects
+  Added member and admin only access to ongoing projects' files
+  Added view, download file (need to fix)
+
+September 21, 2015:
+  Added coordinator access to ongoing projects
+  Added add project to ongoing projects page for coor
+  Added redirect to project profile after project creation
+  Changed project's random secret_code
+  Added control panel for coor, todo for students
+
+September 22, 2015:
+  Fixed and organized URL routes
+  Hid calendar add and remove button in published projects profile
+
+September 23, 2015:
+  Added add user to a project (FIX: Remove current members from the list)
+  Added add course-wide event
+
+September 28, 2015:
+  Added User level in add user
+  Added generate journal function
+  Added generate journal duration filter
+
+October 2, 2015:
+  Added some UI design
+  Added esc shortcut key to sidebar menu
+
+October 3, 2015:
+  UI Clean up
+  Fixed course faculty assignment in preparation for assigning available advisers
+
+October 17, 2015:
+  Made project control nav dynamic
+  Added storage capacity gauge in files
+  Disabled upload function when storage cap limit is reached
+  Delete files
+
+October 18, 2015:
+  Fixed files UI
+  Delete files (ajax)
+    Remove deleted file from the list asynchronously
+    Change storage cap gauge asynchronously
+  Multiple file upload
+  Added validation during upload if storage space is sufficient
+  Upload files (ajax)
+    Add uploaded file to the list asynchronously
+    Change storage cap gauge asynchronously
+  Added notification if storage available size is smaller than the size of the file that is being uploaded
+
+October 19, 2015:
+  Added 'uploaded_by' field in documents
+  Added restrictions on deletion of file
+    User can only delete file if he/she is the one who uploaded the file
+  Edit JS files direct target of element for events
+  Added Start publication process (chaging project status)
+  Fixed file management bugs
+  Added working_files_capacity field in admin_settings
+  Added change working files capacity in Admin's manage page
+
+October 26, 2015:
+  Fixed UI for publication process
+  Added "Official" field on document table for official docs
+  Upload / Delete files on publication process on List of official documents
+
+October 27, 2015:
+  Cleaned code for project profile to match different project status
+
+October 28, 2015:
+  Added change project status to confirmation
+  Added start confirmation function
+  Added notification to coordinator when confirmation is started
+  Restricted uploading/deleting files when the status is "confirmation"  
+
+November 11, 2015:
+  Added change project status to processing
+  Made document conversion asynchronous with Celery and RabbitMQ
+  Added change project status to published
+  Published a project
+
+November 14, 2015:
+  Added search query on published projects
+    Search 1 keyword for now in project title
+
+November 16, 2015:
+  Added multiple keywords on search query on published projects
+
+November 17, 2015:
+  Fixed search query
+  Deleted working files during processing phase on publication process
+  Added published date during publication
+
+November 18, 2015:
+  Added Edit abstract
+
+November 19, 2015:
+  Set up thesismates on a free VM from koding
+
+November 22, 2015:
+  Added account management (Credentials, change password)
+  Made email invitation run through a celery worker
+  Set up thesismates on AWS (free)
+
+November 24, 2015:
+  Added assign available adviser
+  Fixed taskbar when toggled and clicked on the main content
+  displayed available advisers while assigning
+
+Novermber 25, 2015:
+  Added back up and restore, DB and media files, back up will be stored in dropbox
+  Ask a question in community
+  question search query
+
+Novermber 26, 2015:
+  Added project log
+
+November 29, 2015:
+  Added spinners
+  Fixed community questions url bug
+  Redirect to question after asking
+  Added slug field to question/community model
+  Fixed question url with slug
+  Fixed project log sorting
+  Installed pretty times for "x days/minutes ago"
+  Answer question
+  Leave group
+
+December 2, 2015:
+  Fixed bug - Insufficient storage continuos spinner
+  Email invitation letter format
+  File html - revised
+
+December 3, 2015:
+  Added uploaded date on files and display in files
+  Fixed django-select2
+  Filtered users in add member to current project to be non members only
+  Changed add member to current project to single user addition
+  "see more" in crowded day events
+  PDF file only on publication files
+  Confirmation - Rejection
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ Make email invitation run from a celery worker @done (15-11-22 23:45) @project(TO DO)
+ ✔ Account management (Change First name, Last name, password, etc.) @done (15-11-22 23:29) @project(TO DO)
+ ✔ Edit abstract of project @done (15-11-18 12:17) @project(TO DO)
+ ✔ Delete working files during processing of official documents during publication process @done (15-11-17 23:56) @project(TO DO)
+ ✔ Hide unecessary information on published projects @done (15-11-17 23:20) @project(TO DO)
+ ✔ @critical Search Query @done (15-11-17 23:18) @project(TO DO)
+ ✔ @critical Project Publication Process @done (15-11-17 23:18) @project(TO DO)

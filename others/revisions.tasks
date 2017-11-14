@@ -1,0 +1,29 @@
+ ✔ Idagdag sa admin control ang PROGRAMS @done (16-01-21 23:53)
+     ✔ Program Code @done (16-01-21 23:53)
+     ✔ Description @done (16-01-21 23:53)
+ ✔ Mag lagay ng relationship sa pagitan ng COURSES at PROGRAM @done (16-01-21 23:53)
+     ✔ Mag lagay ng "program" pag nag a-add ng course @done (16-01-21 23:53)
+ ✔ Edit Course @done (16-01-24 16:43)
+     ✔ Name @done (16-01-24 16:43)
+     ✔ Program relation @done (16-01-24 16:43)
+ ✔ Indication sa USERS LIST kung faculty or student @done (16-01-24 16:43)
+
+ ✔ Filter sa PUBLISHED PROJECTS @done (16-01-21 23:53)
+     ✔ By Program @done (16-01-21 23:53)
+     ✔ By Course @done (16-01-21 23:53)
+
+  ✔ Published projects design @done (16-01-21 23:53)
+      ✔ Title list @done (16-01-21 23:53)
+      ✔ Program @done (16-01-21 23:53)
+ 
+ ✔ Calendar @done (16-01-25 11:37)
+     ✔ List all deadlines @done (16-01-22 19:51)
+     ✔ Edit event @done (16-01-25 11:36)
+
+ ✔ Generate thesis report - to pdf @done (16-01-24x` 16:43)
+     Possible content
+         How many thesis overall per program
+
+ ✔ Forum Moderator @done (16-01-24 08:18)
+     ✔ Filter all forum posts and check for content integrity by the Forum Moderator @done (16-01-24 08:18)
+

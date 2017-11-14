@@ -1,0 +1,46 @@
+{% extends "modal.html" %}
+
+{% block modalID %}request-adviser-modal{% endblock modalID %}
+
+{% block modalSize %}
+	modal-sm
+{% endblock modalSize %}
+
+{% block modalTitle %}
+	Request Adviser
+{% endblock modalTitle %}
+
+{% block modalBody %}
+	{% if has_request %}
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<p class="text-info">Your project has already sent an adviser request to <strong>{{ requested }}</strong>. Please wait for the response before requesting for another.</p>
+			</div>
+		</div>
+	{% else %}
+		<form id="request-adviser-form" method="post" action="#">
+		{% csrf_token %}
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="id_title">Choose from available Advisers: </label>
+						<select name="faculty" id="faculty" style="width: 100%" class="django-select2 form-control">
+							{% for assignment in available_advisers %}
+								<option value="{{ assignment.id }}">{{ assignment.faculty.first_name }} {{ assignment.faculty.last_name }}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<div class="form-group text-right">
+					    <button id="next" type="submit" class="btn btn-primary">Send Request</button>
+					</div>
+
+					<p id="request-adviser-form-response" class="text-success"></p>
+				</div>
+		    </div>
+		</form>	
+	{% endif %}
+{% endblock modalBody %}
+
+{% block modalFooter %}
+{% endblock modalFooter %}

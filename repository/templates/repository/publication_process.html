@@ -1,0 +1,184 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+{% load prettytimes_tags %}
+
+
+{% block title %}
+	Thesismates | {{ project.title }}
+{% endblock title %}
+
+{% block css %}
+
+{% endblock css %}
+
+{% block modal %}
+    {% include "repository/modals/retrieve_working_files.html" %}
+{% endblock modal %}
+
+{% block content %}
+<div class="container-fluid">
+	<a href="{{request.META.HTTP_REFERER}}"><i class="fa fa-chevron-left blue-icon"></i> Back</a>
+	{% if project.status == "processing" %}
+        <div id="content" class="row">
+            <div class="col-md-12 text-center">
+                <h1>Processing</h1>
+                <p>Please wait while your official documents are being processed</p>
+                <p>After this process, your project will be officialy published</p>
+                <p>This may take 15 - 30 minutes</p>
+            </div>
+        </div>
+    {% else %}
+        <div id="content" class="row">
+        <div class="col-md-9">
+            <h1 id="title-holder">
+                <span id="title">{{ project.title }}</span>
+                <a id="edit-project-title" class="h4" href="#" data-toggle="tab" title="Edit project title" data-placement="right">
+                    <i class="fa fa-pencil blue-icon"></i>
+                </a>
+            </h1>
+            <form style="display: none;" id="edit-title-form" method="post">
+                <br>
+                {% csrf_token %}
+                <div class="input-group">
+                    {{ edit_title_form.title }}
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Save</button>
+                    </span>
+                </div>
+                <span id="title-error"></span>
+                <br>
+            </form>
+            {% if status %}
+                <span>Status: <strong>{{ status|title }}</strong></span>
+            {% endif %}
+            <hr align="left">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h3>1. Retrieve project's working files </h3>
+                    <h6 class="text-danger">
+                        <i class="fa fa-exclamation-circle"></i> 
+                        Download important files from the project storage because everything will be deleted after publication
+                    </h6>
+                    <a href="#" type="button" data-toggle="modal" data-target="#retrieve-working-files-modal" class="btn btn-default">
+                        <i class="fa fa-files-o"></i>
+                        View working files
+                    </a>
+
+                    <h3>2. List of official documents and final project title</h3>
+                    <h6 class="text-danger">
+                        <i class="fa fa-exclamation-circle"></i> 
+                        Finalize project title on top
+                    </h6>
+                    {% if status == "publication"  %}
+                        {% if is_member %}
+                            <h6>
+                                <a href="#" id="add-pdf-file">
+                                    <i class="fa fa-plus blue-icon"></i>
+                                    Add PDF file
+                                </a>
+                            </h6>
+                    
+
+                            <form class="hide" id="add-file-form" action="{% url 'repository.views.upload_file' project_status project.uid project.slug %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <p>{{ add_file_form.non_field_errors }}</p>
+                                <p>{{ add_file_form.docfile.label_tag }}</p>
+                                <p>
+                                    {{ add_file_form.docfile.errors }}
+                                    {{ add_file_form.docfile }}
+                                </p>
+                                <p><input type="submit" value="Upload" /></p>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+
+                    <p id="form-response"></p>
+
+                    <table class="table tables-striped">
+                        <thead>
+                            <tr>
+                                <th>Filename</th>
+                                <th>Uploader</th>
+                                <th>Actions</th>
+                                <th><br></th>
+                            </tr>
+                        </thead>
+                        <tbody id="files-container">
+                            {% if pre_final %}
+                            {% for document in pre_final %}
+                                <tr id="file-{{ document.id }}">
+                                    <td>{{ document.filename }}</td>
+                                    <td>{{ document.uploaded_by.first_name }} {{ document.uploaded_by.last_name }}</td>
+                                    <td>
+                                        <a class="btn btn-info btn-xs" target="_blank" href="{% url 'repository.views.view_file' project_status project.uid project.slug document.id %}">Open</a>
+                                        <a class="btn btn-warning btn-xs" href="{% url 'repository.views.download_file' project_status project.uid project.slug document.id %}">Download</a>
+                                        {% if document.uploaded_by == user and project.status != "confirmation" %}
+                                        <a class="delete-file btn btn-danger btn-xs" href="{% url 'repository.views.delete_file' project_status project.uid project.slug document.id %}">Delete</a>                            
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ document.created_date|relative_time }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% else %}
+                            <p id="no-doc">No documents</p>
+                        {% endif %}
+                    </table>
+
+                    <h3>3. Confirmation</h3>
+                    
+                    {% if status == "publication" %}
+                        {% if is_coor == True %}
+                            <h6>
+                                Wait for the students to confirm their official document list
+                            </h6>
+                        {% else %}
+                            <h6>
+                                Send notification to coordinator <strong>if the list of official documents is finalized.</strong>
+                            </h6>
+                            <a href="#" type="button" class="btn btn-default" id="send-notification">
+                                <i class="fa fa-paper-plane"></i>
+                                Send notification to coordinator
+                            </a>
+                        {% endif %}
+
+                    {% else %}
+                        {% if is_coor == True %}
+                            <h6>
+                                Please check if the instructions regarding the list of official documents were followed
+                            </h6>
+                            <a id="confirm" href="#" type="button" class="btn btn-success">
+                                <i class="fa fa-check"></i>
+                                Confirm
+                            </a>
+                            <a id="reject" href="#" type="button" class="btn btn-danger">
+                                <i class="fa fa-times"></i>
+                                Reject
+                            </a>
+
+                        {% else %}
+                            <h6>
+                                Notification was sent!
+                            </h6>
+                            <a href="#" type="button" class="btn btn-info disabled">
+                                <i class="fa fa-hourglass"></i>
+                                Please wait while the official list of documents is being confirmed
+                            </a>
+                        {% endif %}
+                        
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% include "repository/publication_control.html" %}
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}
+
+{% block jScripts %}
+    <script src="{% static 'sidebar/sidebar.js' %}"></script>
+	<script src="{% static 'repository/js/publication.js' %}"></script>
+{% endblock jScripts %}

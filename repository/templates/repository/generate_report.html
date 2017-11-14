@@ -1,0 +1,65 @@
+{% extends "easy_pdf/base.html" %}
+
+{% block extra_style %}
+	<style type="text/css">
+		#header {
+			text-align: center;
+		}
+
+		#content {
+			font-size: 12px;
+		}
+
+		td {
+		  vertical-align: top;
+		  text-align: left;
+		}
+
+		.course {
+			width: 250px;
+		}
+
+		.program {
+			width: 120px;
+		}
+
+		.counter {
+			width: 50px;
+		}
+	</style>
+{% endblock extra_style %}
+
+{% block content %}
+	<div id="header">
+		<h1>Thesis report</h1>
+	</div>
+	<div id="content">
+		<div class="details">
+			<span>Total projects: <strong>{{ projects.count }}</strong></span>
+			<br>
+			<span>Prepared by: <strong>{{ user.first_name }} {{ user.last_name }}</strong></span>
+			<br>
+			<span>Prepared on: <strong>{{ date|date:"F d, o" }}</strong></span>
+		</div>
+		<br>
+		<table cellpadding="5" border="1">
+			<thead>
+				<th>#</th>
+				<th>Project Title</th>
+				<th>Course</th>
+				<th>Program</th>
+			</thead>
+			<tbody>
+				{% for project in projects %}
+					<tr>
+						<td class="counter">{{ forloop.counter }}</td>
+						<td>{{ project.title }}</td>
+						<td class="course">{{ project.coordinator.course }}</td>
+						<td class="program">{{ project.coordinator.course.program.code }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	
+{% endblock content %}

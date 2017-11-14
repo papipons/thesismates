@@ -1,0 +1,38 @@
+{% extends "modal.html" %}
+
+{% block modalID %}add-member-modal{% endblock modalID %}
+
+{% block modalSize %}
+	modal-sm
+{% endblock modalSize %}
+
+{% block modalTitle %}
+	Add new member
+{% endblock modalTitle %}
+
+{% block modalBody %}
+	<form id="add-member-form" method="post" action="#">
+	{% csrf_token %}
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label for="id_user">Users: </label>
+					<select name="user" id="id_user" style="width: 100%" class="django-select2">
+						{% for user in non_members %}
+							<option value="{{ user.id }}">{{ user.username }}</option>
+						{% endfor %}
+					</select>
+				</div>
+
+				<div class="form-group text-right">
+				    <button id="next" type="submit" class="btn btn-primary">Add</button>
+				</div>
+
+				<p id="add-member-form-response" class="text-success"></p>
+			</div>
+	    </div>
+	</form>	
+{% endblock modalBody %}
+
+{% block modalFooter %}
+{% endblock modalFooter %}

@@ -1,0 +1,87 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	Thesismates | Community
+{% endblock title %}
+
+{% block modal %}
+	{% include "community/modals/ask_question_modal.html" %}
+	{% include "community/modals/pending_q.html" %}
+	{% include "community/modals/pending_a.html" %}
+{% endblock modal %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-9">
+			<h3 class="easy-sidebar-toggle">
+				Menu
+				<i class="fa fa-angle-double-right"></i>
+			</h3>
+			<h2>Community</h2>
+			<a href="#" type="button" class="btn btn-xs btn-default" data-toggle="modal" data-target="#ask-question-modal">
+				Ask a question
+			</a>
+
+			<a href="#" type="button" class="btn btn-xs btn-default" data-toggle="modal" data-target="#pending-q-modal">
+				Pending Questions
+			</a>
+
+			<a href="#" type="button" class="btn btn-xs btn-default" data-toggle="modal" data-target="#pending-a-modal">
+				Pending Answers
+			</a>
+		</div>
+		<div id="search-box" class="col-md-3">
+			<form id="search-form">
+				{% csrf_token %}
+				<div class="input-group stylish-input-group">
+		            {{ search_form.search }}
+		            <span class="input-group-addon">
+		                <button type="submit">
+		                    <span class="glyphicon glyphicon-search"></span>
+		                </button>  
+		            </span>
+		        </div>
+			</form>
+		</div>
+	</div>
+	<hr align="left">
+	<div class="row" id="questions">
+		{% if questions %}
+			{% for question in questions %}
+			<div class="col-md-4">
+				<div class="per">
+					<h4 class="per-title">
+						<a class="question-titles" href="{% url 'community.views.question' question.id question.slug%}">{{ question.title }}</a>
+					</h4>
+					<div class="per-desc">
+						{% if question.description %}
+						<p>{{ question.description }}</p>
+						{% else %}
+						<p>No details</p>
+						{% endif %}
+					</div>
+
+					<div class="tags">
+						<span><i class="fa fa-user"></i> {{ question.asked_by.first_name|capfirst }} {{ question.asked_by.last_name|capfirst }}</span>
+						<br>
+						<span><i class="fa fa-clock-o"></i> {{ question.created_date|date:"F d, o | h:i a" }}</span>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class="col-md-4">
+				<h4>No Questions available</h4>
+			</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock content %}
+
+{% block jScripts %}
+	<script src="{% static 'community/js/comm.js' %}"></script>
+	<script src="{% static 'highlight.js' %}"></script>
+	<script src="{% static 'community/js/search.js' %}"></script>
+{% endblock jScripts %}

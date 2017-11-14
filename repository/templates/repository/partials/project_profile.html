@@ -1,0 +1,131 @@
+{% include "repository/modals/add_member_modal.html" %}
+
+
+<div id="profile" class="row">
+    <div class="col-md-8">
+        <span><strong>Abstract:</strong></span>
+        {% if project.status != "published" %}
+            {% if is_member %}
+                <span style="display: none;" id="notifier"></span> <span id="chars-left" class="text-info" style="display: none;"> Character(s) left</span>
+                <a href="#" id="edit-abstract">Edit <i class="fa fa-pencil-square-o blue-icon"></i></a>
+            {% endif %}
+        {% endif %}
+
+        <p id="abstract">{{ project.abstract }}</p>
+
+        {% if project.status != "published"  %}
+            {% if is_member %}
+                <form style="display: none;" id="edit-abstract-form" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ abstract_form.abstract }}
+                    </div>
+
+                    <button type="submit" class="btn btn-default">Save</button>
+                    <span id="abstract-error"></span>
+                    
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        <span><strong>Course: </strong>{{ project.coordinator.course }}</span>
+        <br>
+        <span><strong>Adviser: </strong>
+        {% if project.status == "published" %}
+            {{ adviser }}
+        {% endif %}
+
+        {% if project.status != "published" %}
+            {% if adviser %}
+                {{ adviser }}
+            {% else %}
+                {% if is_member == True %}
+                    <a href="#" type="button" class="btn btn-xs btn-default" data-toggle="modal" data-target="#request-adviser-modal">
+                        Request Adviser
+                    </a>
+                {% else %}
+                    None
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        </span>
+        <br>
+        <span><strong>Coordinator: </strong>{{ coordinator }}</span>
+        <br>
+        <span><strong>Created Date: </strong>{{ project.created_date|date:"F d, o" }}</span>
+        <br>
+        {% if project.status == "published" %}
+        <span><strong>Published Date: </strong>{{ project.published_date|date:"F d, o" }}</span>
+        {% endif %}
+
+        {% if project_status == "ongoing" %}
+            {% if request.user == project.coordinator.faculty or is_admin %}
+                <span><strong>Project Code: </strong>{{ project.secret_code }}</span>
+                <br>
+            {% endif %}
+        {% endif %}
+
+        <hr align="left">    
+
+        <span><strong>Members:</strong></span>
+        {% if project.status == "ongoing" %}
+            {% if is_coor or is_admin %}
+                <br>
+                <a href="#" type="button" class="btn btn-xs btn-default" data-toggle="modal" data-target="#add-member-modal">
+                    <i class="fa fa-plus blue-icon"></i>
+                    Add Member
+                </a>
+            {% endif %}
+        {% endif %}
+        <br>
+        <div id="members">
+        {% for member in members %}
+            <span>{{ member.member.first_name }} {{ member.member.last_name }}</span>
+            {% if project.status != "published" %}
+                {% if request.user == member.member %}
+                    <a id="{{ member.id }}" class="leave-group" title="Leave Group">
+                        <span class="round-tabs one">
+                            <i class="fa fa-times blue-icon"></i>
+                        </span> 
+                    </a>
+                {% endif %}
+                {% if is_coor or is_admin %}
+                    <a id="{{ member.id }}" class="leave-group" title="Remove from project">
+                        <span class="round-tabs one">
+                            <i class="fa fa-times blue-icon"></i>
+                        </span> 
+                    </a>
+                {% endif %}
+            {% endif %}
+            <br>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $('a[title]').tooltip();
+
+        $('.django-select2').djangoSelect2();
+        
+        $("#add-member-form").unbind().on('submit', function(e){
+            e.preventDefault();
+            var users = $("#add-member-form #id_user").val();
+            addMembers(users);
+        });
+
+        $('#id_abstract').simplyCountable({
+            counter:            '#notifier',
+            countType:          'characters',
+            maxCount:           5000,
+            strictMax:          true,
+            countDirection:     'down',
+            safeClass:          'text-info',
+            onOverCount:        function(count, countable, counter){},
+            onSafeCount:        function(count, countable, counter){},
+            onMaxCount:         function(count, countable, counter){}
+        });
+    })
+</script>

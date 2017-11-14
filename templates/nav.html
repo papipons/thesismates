@@ -1,0 +1,56 @@
+ <div id="side-bar-nav" class="navbar navbar-blue navbar-twitch" role="navigation">
+  <div class="container">
+    <div class="text-center">
+      <ul class="nav navbar-nav">
+        <li {% if project_status == "ongoing" %}class="active"{% endif %}>
+          <a href="/">
+            <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Ongoing Projects"> 
+              <i class="fa fa-gavel"></i>
+            </span>
+          </a>
+        </li>
+        <li {% if project_status == "published" %}class="active"{% endif %}>
+          <a href="{% url 'repository.views.projects' 'published' %}">
+            <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Published Projects"> 
+              <i class="fa fa-archive"></i>
+            </span>
+          </a>
+        </li>
+          <li {% if community %}class="active"{% endif %}>
+            <a href="{% url 'community.views.community' %}">
+              <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Community"> 
+                <i class="fa fa-university"></i>
+              </span>
+            </a>
+          </li>
+          {% if is_admin %}
+          <li {% if manage %}class="active"{% endif %}>
+            <a href="{% url 'admin_control.views.manage' %}">
+              <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Admin Control"> 
+                <i class="fa fa-user-secret"></i>
+              </span>
+            </a>
+          </li>
+          {% endif %}
+      </ul>
+      <div id="bot-nav">
+        <ul class="nav navbar-nav" >
+          <li  {% if account %}class="active"{% endif %}>
+            <a href="{% url 'core.views.account' %}">
+              <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Account"> 
+                <i class="fa fa-user"></i>
+              </span>
+            </a>
+          </li>
+          <li >
+            <a href="{% url 'core.views.log_out' %}">
+              <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Log Out"> 
+                <i class="fa fa-power-off"></i>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div><!--/.nav-collapse -->
+  </div>
+ </div>
