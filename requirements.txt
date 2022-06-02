@@ -14,7 +14,7 @@ django-pretty-times==0.2.0
 Django-Select2==5.4.2
 djangoajax==2.2.15
 dropbox==3.42
-html5lib==0.9999999
+html5lib==0.99999999
 kombu==3.0.29
 MySQL-python==1.2.5
 Pillow==8.1.1
