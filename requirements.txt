@@ -25,5 +25,5 @@ requests==2.8.1
 six==1.9.0
 urllib3==1.12
 Wand==0.4.1
-wheel==0.24.0
+wheel==0.38.1
 xhtml2pdf==0.0.6
